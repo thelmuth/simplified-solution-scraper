@@ -29,6 +29,7 @@
   (println "-"))
 
 ;; All present problems
+#_(count problem-instruction-map)
 #_(println (sort (keys problem-instruction-map)))
 
 
