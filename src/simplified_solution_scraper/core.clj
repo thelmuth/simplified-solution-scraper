@@ -21,6 +21,20 @@
       (println i)
       (println (type i)))))
 
+;; Distinct and total instructions for each problem
+#_(doseq [[problem instructions] problem-instruction-map]
+  (println (name problem))
+  (println "Total instructions:" (count instructions))
+  (println "Distinct instructions:" (count (distinct instructions)))
+  (println "-"))
+
+;; All present problems
+#_(println (sort (keys problem-instruction-map)))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defn print-nice-solution-map
   "Nicely prints the solution map in the right format."
   [solution-map]
@@ -83,9 +97,10 @@
                      simplified-solution-0-test-error
                      (and (not (empty? (filter #(= % ";; Problem-Specific Report of Simplified Solution")
                                                lines)))
-                          (= "Test total error for best: 0"
-                             (last (filter #(re-matches #"^Test total error for best:.*" %)
-                                           lines))))]
+                          (let [last-total-test (last (filter #(re-matches #"^Test total error for best:.*" %)
+                                                              lines))]
+                            (or (= last-total-test "Test total error for best: 0")
+                                (= last-total-test "Test total error for best: 0.0"))))]
                                         ; Only look at files with simplified solution test error of 0
                  (when simplified-solution-0-test-error
                    (let [problem-name (keyword (last (re-matches #".*/(.*)/log\d{1,2}\.txt" (.getPath file))))
