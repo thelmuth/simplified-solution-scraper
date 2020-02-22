@@ -64,8 +64,8 @@
       (let [sol-map (first solution-maps)]
         (recur (assoc result
                       (:problem-name sol-map)
-                      (concat (get result (:problem-name sol-map) '())
-                            (:simplified-program-instructions sol-map)))
+                      (conj (get result (:problem-name sol-map) '())
+                              (:simplified-program-instructions sol-map)))
                (rest solution-maps))))))
 
 (defn extract-instructions-from-program
@@ -74,7 +74,7 @@
   (loop [zipper (zip/seq-zip program)
          instructions []]
     (if (zip/end? zipper)
-      instructions
+      (apply list instructions)
       (recur (zip/next zipper)
              (if (or (nil? (zip/node zipper))
                      (seq? (zip/node zipper)))
